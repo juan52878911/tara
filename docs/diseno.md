@@ -1,6 +1,6 @@
 # tara — diseño
 
-> Estado: borrador de diseño (v0). Nada implementado todavía.
+> Estado: borrador de diseño (v0). M0 implementado (`detect`, `scan`, `compare`, adaptador `loc`).
 
 ## 1. Problema
 
@@ -33,6 +33,7 @@ ejecutarlo, o ejecutando lo mínimo y de forma determinista**, prioriza dónde m
 | `cpu` | conteo de instrucciones (callgrind / iai-callgrind / CodSpeed) sobre benchmarks existentes | `simulated` (ejecuta, determinista) | alta para comparar versiones; no da tiempo absoluto |
 | `db` | reglas estáticas (consulta ORM dentro de bucle, N+1, `SELECT *` sin límite) + `EXPLAIN` sin `ANALYZE` opcional | `static` / `planner` | media; `EXPLAIN` solo compara planes y engaña con estadísticas vacías |
 | `io` / `mem` | patrones estáticos (cargar todo en memoria, lecturas en bucle, colecciones sin cota) | `static` | baja-media: marca sospechas |
+| `code_size` (contexto) | líneas por fichero de código (adaptador interno `loc`) | `static` | alta; no es consumo, es el peso para priorizar |
 | `carbon` | derivado de `cloud_cost`/`cpu` con factores públicos | `model` | orden de magnitud |
 | sospechas generales | revisor LLM **solo sobre hotspots** | `llm_suspect` | baja: dice dónde mirar, nunca una cifra |
 
@@ -152,7 +153,7 @@ contrato JSON).
 `method ∈ {declared, static, simulated, planner, model, llm_suspect}` ·
 `confidence ∈ {high, medium, low}` · `class ∈ {deterministic, live}`.
 
-Las salidas usan `--json` (por defecto) y `--compact` (tabla de texto para agentes). Códigos de
+Las salidas usan `--json` (por defecto) y `--compact` (tabla de texto para agentes; en `detect` y `compare`). `TARA_NOW` fija `generated_at` para salidas byte-idénticas. Códigos de
 salida: `0` ok, `1` regresión sobre umbral en `compare`, `2` error de uso, `3` cobertura
 parcial (algún adaptador saltado) cuando se pide `--strict`.
 

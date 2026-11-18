@@ -1,0 +1,1 @@
+{"languages":["javascript"],"frameworks":["express","react"],"orm":["prisma"],"bundler":"vite","iac":["terraform"],"docs":["readme"]}

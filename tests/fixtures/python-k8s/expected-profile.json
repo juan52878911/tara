@@ -1,0 +1,1 @@
+{"languages":["python"],"frameworks":["fastapi"],"orm":["sqlalchemy"],"bundler":null,"iac":["kubernetes"],"docs":["adr","docs"]}

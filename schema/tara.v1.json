@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/tara.v1.json",
+  "title": "tara — informe / línea base v1",
+  "type": "object",
+  "required": ["schema_version", "tool", "commit", "generated_at", "profile", "coverage", "findings"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "tool": { "const": "tara" },
+    "commit": { "type": "string" },
+    "generated_at": { "type": "string" },
+    "profile": { "$ref": "#/$defs/profile" },
+    "coverage": { "type": "array", "items": { "$ref": "#/$defs/coverage" } },
+    "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } }
+  },
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "required": ["languages", "frameworks", "orm", "bundler", "iac", "docs"],
+      "properties": {
+        "languages": { "type": "array", "items": { "type": "string" } },
+        "frameworks": { "type": "array", "items": { "type": "string" } },
+        "orm": { "type": "array", "items": { "type": "string" } },
+        "bundler": { "type": ["string", "null"] },
+        "iac": { "type": "array", "items": { "type": "string" } },
+        "docs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["dimension", "adapter", "status"],
+      "properties": {
+        "dimension": { "type": "string" },
+        "adapter": { "type": "string" },
+        "status": { "enum": ["ok", "skipped"] },
+        "reason": { "type": "string" }
+      }
+    },
+    "location": {
+      "type": "object",
+      "required": ["path"],
+      "properties": {
+        "path": { "type": "string" },
+        "line": { "type": "integer" },
+        "symbol": { "type": "string" }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "required": ["id", "dimension", "metric", "value", "unit", "method", "confidence", "location", "anchored_at"],
+      "properties": {
+        "id": { "type": "string" },
+        "dimension": { "type": "string" },
+        "metric": { "type": "string" },
+        "value": { "type": "number" },
+        "unit": { "type": "string" },
+        "method": { "enum": ["declared", "static", "simulated", "planner", "model", "llm_suspect"] },
+        "confidence": { "enum": ["high", "medium", "low"] },
+        "location": { "$ref": "#/$defs/location" },
+        "anchored_at": {
+          "type": "object",
+          "required": ["sha", "class"],
+          "properties": {
+            "sha": { "type": "string" },
+            "class": { "enum": ["deterministic", "live"] }
+          }
+        },
+        "budget": {
+          "type": "object",
+          "required": ["limit", "source"],
+          "properties": { "limit": { "type": "number" }, "source": { "type": "string" } }
+        },
+        "hotspot_score": { "type": "number" },
+        "evidence": { "type": "string" }
+      }
+    }
+  }
+}
