@@ -18,3 +18,7 @@ tara scan              # perfil + priorización + hallazgos + línea base del co
 tara compare main      # deltas contra la línea base de otra ref
 tara report            # oportunidades ordenadas por impacto × confianza
 ```
+
+## Licencia
+
+[Apache-2.0](LICENSE).

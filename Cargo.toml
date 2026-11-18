@@ -3,6 +3,7 @@ name = "tara"
 version = "0.0.1"
 edition = "2021"
 description = "Estimación de consumo de recursos sin ejecutar, con línea base por commit"
+license = "Apache-2.0"
 publish = false
 
 [dependencies]
