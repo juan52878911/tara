@@ -1,0 +1,8 @@
+[package]
+name = "tara"
+version = "0.0.1"
+edition = "2021"
+description = "Estimación de consumo de recursos sin ejecutar, con línea base por commit"
+publish = false
+
+[dependencies]
